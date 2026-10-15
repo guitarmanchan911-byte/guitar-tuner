@@ -1,0 +1,34 @@
+{
+  "name": "吉他调音器 · Guitar Tuner",
+  "short_name": "吉他调音",
+  "description": "手机端吉他调音器：麦克风拾音、指针表盘、参考音播放，内置标准调弦 / 降半音 / DADGAD，可离线使用。",
+  "lang": "zh-CN",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0e1318",
+  "background_color": "#0e1318",
+  "categories": ["music", "utilities"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='512'%20height='512'%20viewBox='0%200%20512%20512'%3E%3Crect%20width='512'%20height='512'%20rx='112'%20fill='%230e1318'/%3E%3Cpath%20d='M126%20225A150%20150%200%200%201%20386%20225'%20fill='none'%20stroke='%2333414d'%20stroke-width='22'%20stroke-linecap='round'/%3E%3Cpath%20d='M240.3%20150.8A150%20150%200%200%201%20271.7%20150.8'%20fill='none'%20stroke='%232ee6a8'%20stroke-width='22'%20stroke-linecap='round'/%3E%3Cpath%20d='M256%20300L315%20197.8'%20stroke='%23ffffff'%20stroke-width='14'%20stroke-linecap='round'/%3E%3Ccircle%20cx='256'%20cy='300'%20r='22'%20fill='%232ee6a8'/%3E%3Ccircle%20cx='256'%20cy='300'%20r='8'%20fill='%230e1318'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='512'%20height='512'%20viewBox='0%200%20512%20512'%3E%3Crect%20width='512'%20height='512'%20rx='112'%20fill='%230e1318'/%3E%3Cpath%20d='M126%20225A150%20150%200%200%201%20386%20225'%20fill='none'%20stroke='%2333414d'%20stroke-width='22'%20stroke-linecap='round'/%3E%3Cpath%20d='M240.3%20150.8A150%20150%200%200%201%20271.7%20150.8'%20fill='none'%20stroke='%232ee6a8'%20stroke-width='22'%20stroke-linecap='round'/%3E%3Cpath%20d='M256%20300L315%20197.8'%20stroke='%23ffffff'%20stroke-width='14'%20stroke-linecap='round'/%3E%3Ccircle%20cx='256'%20cy='300'%20r='22'%20fill='%232ee6a8'/%3E%3Ccircle%20cx='256'%20cy='300'%20r='8'%20fill='%230e1318'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='512'%20height='512'%20viewBox='0%200%20512%20512'%3E%3Crect%20width='512'%20height='512'%20fill='%230e1318'/%3E%3Cpath%20d='M126%20225A150%20150%200%200%201%20386%20225'%20fill='none'%20stroke='%2333414d'%20stroke-width='22'%20stroke-linecap='round'/%3E%3Cpath%20d='M240.3%20150.8A150%20150%200%200%201%20271.7%20150.8'%20fill='none'%20stroke='%232ee6a8'%20stroke-width='22'%20stroke-linecap='round'/%3E%3Cpath%20d='M256%20300L315%20197.8'%20stroke='%23ffffff'%20stroke-width='14'%20stroke-linecap='round'/%3E%3Ccircle%20cx='256'%20cy='300'%20r='22'%20fill='%232ee6a8'/%3E%3Ccircle%20cx='256'%20cy='300'%20r='8'%20fill='%230e1318'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
