@@ -2,14 +2,14 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8" />
-<title>吉他调音器 · Guitar Tuner</title>
+<title>吉他二胡调音器</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 <meta name="theme-color" content="#0e1318" />
-<meta name="description" content="手机端吉他调音器：麦克风拾音、指针表盘、参考音播放，内置标准调弦 / 降半音 / DADGAD，可离线使用。" />
+<meta name="description" content="吉他二胡调音器：麦克风拾音、指针表盘、参考音播放。吉他内置标准调弦 / 降半音 / DADGAD，二胡内弦 D4、外弦 A4，可离线使用。" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="吉他调音" />
+<meta name="apple-mobile-web-app-title" content="吉他二胡调音" />
 <meta name="format-detection" content="telephone=no" />
 <link rel="manifest" href="./manifest.json" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20512%20512'%3E%3Crect%20width='512'%20height='512'%20rx='112'%20fill='%230e1318'/%3E%3Cpath%20d='M126%20225A150%20150%200%200%201%20386%20225'%20fill='none'%20stroke='%2333414d'%20stroke-width='22'%20stroke-linecap='round'/%3E%3Cpath%20d='M240.3%20150.8A150%20150%200%200%201%20271.7%20150.8'%20fill='none'%20stroke='%232ee6a8'%20stroke-width='22'%20stroke-linecap='round'/%3E%3Cpath%20d='M256%20300L315%20197.8'%20stroke='%23ffffff'%20stroke-width='14'%20stroke-linecap='round'/%3E%3Ccircle%20cx='256'%20cy='300'%20r='22'%20fill='%232ee6a8'/%3E%3Ccircle%20cx='256'%20cy='300'%20r='8'%20fill='%230e1318'/%3E%3C/svg%3E" />
@@ -29,13 +29,15 @@
     font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
     -webkit-user-select:none; user-select:none;
     touch-action:manipulation; overscroll-behavior:none;
+    display:flex; flex-direction:column;
     padding:calc(env(safe-area-inset-top) + 8px) 14px calc(env(safe-area-inset-bottom) + 10px);
   }
-  .app{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+  /* .app 撑满视口，主按钮才能用 margin-top:auto 贴到下方 */
+  .app{width:100%;max-width:520px;margin:0 auto;flex:1 1 auto;display:flex;flex-direction:column;gap:10px}
 
   /* 顶栏 */
   .top{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 0}
-  .brand{font-size:15px;font-weight:700;letter-spacing:.5px}
+  .brand{margin:0;font-size:15px;font-weight:700;letter-spacing:.5px}
   .pill{font-size:12px;padding:5px 10px;border-radius:999px;background:var(--panel);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
   .pill.live{color:var(--accent);border-color:#2b5a4b}
   .pill.err{color:var(--bad);border-color:#5a2b2b}
@@ -51,8 +53,12 @@
   button:active{transform:scale(.975)}
   button[disabled]{opacity:.45}
 
-  /* 调弦预设 */
+  /* 乐器切换 / 调弦预设 */
+  .tabs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .tabs button{min-height:46px;font-size:16px;letter-spacing:2px}
+  .tabs button[aria-selected="true"]{background:linear-gradient(180deg,#1f6f57,#14513f);border-color:var(--accent);color:#eafff7}
   .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .seg[hidden]{display:none}          /* 只有一套定弦时整行收起 */
   .seg button{padding:6px 4px;font-size:15px;line-height:1.25}
   .seg button[aria-pressed="true"]{background:linear-gradient(180deg,#1f6f57,#14513f);border-color:var(--accent);color:#eafff7}
 
@@ -74,6 +80,7 @@
 
   /* 琴弦按钮 */
   .strings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .strings.two{grid-template-columns:repeat(2,1fr)}   /* 二胡两根弦 */
   .str{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:58px;padding:6px 2px}
   .str .num{font-size:12px;font-weight:500;color:var(--muted)}
   .str .nm{font-size:20px;font-weight:700;letter-spacing:.5px}
@@ -88,7 +95,7 @@
   .chip .sub{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-top:3px}
 
   /* 主按钮 */
-  .primary{min-height:60px;font-size:19px;border:none;background:linear-gradient(180deg,#2ee6a8,#1ab98a);color:#052b20}
+  .primary{min-height:60px;font-size:19px;border:none;margin-top:auto;background:linear-gradient(180deg,#2ee6a8,#1ab98a);color:#052b20}
   .primary.on{background:linear-gradient(180deg,#3a4750,#2a343c);color:var(--text)}
 
   .hint{font-size:12px;line-height:1.5;color:var(--muted);text-align:center;margin:2px 0 0}
@@ -98,15 +105,26 @@
     .str .nm{font-size:18px}
     .seg button{font-size:14px}
   }
+  /* 矮屏(如 360x640)整体收紧，尽量一屏放下 */
+  @media (max-height:720px){
+    .app{gap:8px}
+    .dial{width:min(100%,32vh)}
+    .tabs button,.seg button{min-height:44px}
+    .str{min-height:52px}
+    .primary{min-height:54px}
+    .hint{font-size:11px}
+  }
 </style>
 </head>
 <body>
 <div class="app">
 
   <header class="top">
-    <div class="brand">吉他调音器</div>
+    <h1 class="brand">吉他二胡调音器</h1>
     <div class="pill" id="status">未启动</div>
   </header>
+
+  <div class="tabs" id="tabs" role="tablist" aria-label="乐器"></div>
 
   <div class="seg" id="presets" role="group" aria-label="调弦预设"></div>
 
@@ -137,13 +155,28 @@
 (() => {
   'use strict';
 
-  /* ---------- 调弦预设 ---------- */
-  const PRESETS = {
-    standard: { label:'标准', strings:[['E2',82.407],['A2',110.000],['D3',146.832],['G3',195.998],['B3',246.942],['E4',329.628]] },
-    half:     { label:'降半音', strings:[['D#2',77.782],['G#2',103.826],['C#3',138.591],['F#3',184.997],['A#3',233.082],['D#4',311.127]] },
-    dadgad:   { label:'DADGAD', strings:[['D2',73.416],['A2',110.000],['D3',146.832],['G3',195.998],['A3',220.000],['D4',293.665]] }
+  /* ---------- 乐器 / 调弦预设 ----------
+     tags 是琴弦按钮上的小字(吉他按弦号、二胡按内/外弦)，与 strings 一一对应 */
+  const INSTRUMENTS = {
+    guitar: {
+      label: '吉他',
+      tags: ['6 弦','5 弦','4 弦','3 弦','2 弦','1 弦'],
+      columns: 3,
+      presets: {
+        standard: { label:'标准', strings:[['E2',82.407],['A2',110.000],['D3',146.832],['G3',195.998],['B3',246.942],['E4',329.628]] },
+        half:     { label:'降半音', strings:[['D#2',77.782],['G#2',103.826],['C#3',138.591],['F#3',184.997],['A#3',233.082],['D#4',311.127]] },
+        dadgad:   { label:'DADGAD', strings:[['D2',73.416],['A2',110.000],['D3',146.832],['G3',195.998],['A3',220.000],['D4',293.665]] }
+      }
+    },
+    erhu: {
+      label: '二胡',
+      tags: ['内弦','外弦'],
+      columns: 2,
+      presets: {
+        standard: { label:'标准定弦', strings:[['D4',293.665],['A4',440.000]] }
+      }
+    }
   };
-  const STRING_NO = [6,5,4,3,2,1];          // 索引 0 = 6 弦(最粗)
   const TUNE_CENTS = 5;                     // 准音容差 ±5 音分
 
   /* ---------- DOM ---------- */
@@ -151,14 +184,21 @@
   const canvas = $('dial');
   const c2d = canvas.getContext('2d');
   const el = {
-    presets:$('presets'), strings:$('strings'), dialbox:$('dialbox'),
+    tabs:$('tabs'), presets:$('presets'), strings:$('strings'), dialbox:$('dialbox'),
     note:$('note'), cents:$('cents'), target:$('target'),
     status:$('status'), hint:$('hint'), meter:$('meterbar'),
     auto:$('btnAuto'), ref:$('btnRef'), refSub:$('refSub'), mic:$('btnMic')
   };
 
+  /* ---------- 当前乐器 / 当前预设的快捷取用 ---------- */
+  const curInst = () => INSTRUMENTS[S.inst];
+  const curStrings = () => curInst().presets[S.preset].strings;
+  const playingHint = () => (S.inst === 'erhu' ? '运弓或拨弦' : '拨动琴弦');
+  const waitingHint = () => (S.inst === 'erhu' ? '请运弓或拨弦…' : '请拨动琴弦…');
+
   /* ---------- 状态 ---------- */
   const S = {
+    inst:'guitar',     // guitar = 吉他, erhu = 二胡
     preset:'standard',
     index:null,        // 手动选中的弦；null = 自动识别
     auto:true,
@@ -426,7 +466,7 @@
     let f = r.freq;
     // 与上一根匹配弦刚好成 2 倍关系时，按八度误判修正
     if (S.match != null) {
-      const f0 = PRESETS[S.preset].strings[S.match][1];
+      const f0 = curStrings()[S.match][1];
       if (Math.abs(cents(f, f0 * 2)) < 60 && Math.abs(cents(f, f0)) > 800) f /= 2;
     }
     // 降噪 6：连续两帧结果接近才正式采用——瞬时杂音很难连续两帧骗过同一组判据
@@ -449,7 +489,7 @@
 
   /* ---------- 目标弦 ---------- */
   function targetString() {
-    const list = PRESETS[S.preset].strings;
+    const list = curStrings();
     if (S.auto) {
       if (S.freq <= 0) { S.match = null; return null; }
       let bi = 0, bc = Infinity;
@@ -547,7 +587,7 @@
     } else if (!fresh || !t) {
       S.cents = 0; S.tuned = false; S.tuneFrames = 0;
       setText(el.note, '--');
-      setText(el.cents, t ? '请拨动琴弦…' : '自动识别中…');
+      setText(el.cents, t ? waitingHint() : '自动识别中…');
       setText(el.target, t ? '目标 ' + t.name + ' · ' + t.freq.toFixed(1) + ' Hz' : '目标：拨弦后自动识别');
     } else {
       // 手动选弦时把检测频率折到目标附近，避免谐波/八度导致指针打满
@@ -567,7 +607,7 @@
       if (stable) setText(el.cents, '准音 ✓');
       else if (c > 0) { cls = 'sharp'; setText(el.cents, '偏高 +' + Math.round(c) + ' ¢'); }
       else { cls = 'flat'; setText(el.cents, '偏低 −' + Math.round(Math.abs(c)) + ' ¢'); }
-      setText(el.target, '目标 ' + t.name + ' · ' + t.freq.toFixed(1) + ' Hz · ' + STRING_NO[t.i] + ' 弦');
+      setText(el.target, '目标 ' + t.name + ' · ' + t.freq.toFixed(1) + ' Hz · ' + curInst().tags[t.i]);
     }
 
     el.dialbox.className = 'dial' + (S.tuned ? ' tuned' : '') + (cls ? ' ' + cls : '');
@@ -585,7 +625,7 @@
       el.ref.disabled = true;
       setText(el.refSub, '未选弦');
     } else {
-      const s = PRESETS[S.preset].strings[ri];
+      const s = curStrings()[ri];
       el.ref.disabled = false;
       setText(el.refSub, s[0] + ' · ' + s[1].toFixed(1) + ' Hz');
     }
@@ -620,42 +660,72 @@
 
   // 允许约 ±7 个半音的跑音范围，同时排除明显的高次谐波
   function setRanges() {
-    const fs = PRESETS[S.preset].strings.map((s) => s[1]);
+    const fs = curStrings().map((s) => s[1]);
     S.minF = Math.min.apply(null, fs) / 1.5;
     S.maxF = Math.max.apply(null, fs) * 1.5;
   }
 
   function buildUI() {
-    el.presets.innerHTML = '';
-    Object.keys(PRESETS).forEach((key) => {
+    const I = curInst();
+    // 乐器切换
+    el.tabs.innerHTML = '';
+    Object.keys(INSTRUMENTS).forEach((key) => {
       const b = document.createElement('button');
       b.type = 'button';
-      b.textContent = PRESETS[key].label;
+      b.setAttribute('role', 'tab');
+      b.textContent = INSTRUMENTS[key].label;
+      b.setAttribute('aria-selected', String(key === S.inst));
+      b.addEventListener('click', () => selectInstrument(key));
+      el.tabs.appendChild(b);
+    });
+    // 调弦预设（只有一套定弦时整行隐藏）
+    const keys = Object.keys(I.presets);
+    el.presets.innerHTML = '';
+    el.presets.hidden = keys.length < 2;
+    keys.forEach((key) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = I.presets[key].label;
       b.setAttribute('aria-pressed', String(key === S.preset));
       b.addEventListener('click', () => selectPreset(key));
       el.presets.appendChild(b);
     });
+    // 琴弦
     el.strings.innerHTML = '';
-    PRESETS[S.preset].strings.forEach((s, i) => {
+    el.strings.className = 'strings' + (I.columns === 2 ? ' two' : '');
+    I.presets[S.preset].strings.forEach((s, i) => {
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'str';
       b.setAttribute('aria-pressed', 'false');
-      b.innerHTML = '<span class="num">' + STRING_NO[i] + ' 弦</span><span class="nm">' + s[0] + '</span>';
+      b.innerHTML = '<span class="num">' + I.tags[i] + '</span><span class="nm">' + s[0] + '</span>';
       b.addEventListener('click', () => selectString(i));
       el.strings.appendChild(b);
     });
-  }
-
-  function paintPresets() {
-    const keys = Object.keys(PRESETS);
-    const kids = el.presets.children;
-    for (let i = 0; i < kids.length; i++) kids[i].setAttribute('aria-pressed', String(keys[i] === S.preset));
+    paintStrings();
   }
 
   function paintStrings() {
     const kids = el.strings.children;
     for (let i = 0; i < kids.length; i++) kids[i].setAttribute('aria-pressed', String(!S.auto && i === S.index));
+  }
+
+  function selectInstrument(key) {
+    if (S.inst === key) return;
+    S.inst = key;
+    S.preset = Object.keys(INSTRUMENTS[key].presets)[0];
+    S.auto = true; S.index = null;                 // 换乐器后回到自动识别，避免沿用越界的弦号
+    S.hist.length = 0;
+    S.freq = 0; S.cents = 0; S.shown = 0; S.pending = 0; S.match = null; S.matchShown = -1;
+    S.tuned = false; S.tuneFrames = 0;
+    stopTone();
+    el.auto.setAttribute('aria-pressed', 'true');
+    setRanges();
+    buildUI();
+    setHint(key === 'erhu'
+      ? '二胡模式：内弦 D4（293.7Hz）、外弦 A4（440Hz），点琴弦可单独锁定并播参考音。'
+      : '吉他模式：标准 / 降半音 / DADGAD 三套预设，拨哪根弦识别哪根。');
+    render();
   }
 
   function selectPreset(key) {
@@ -665,9 +735,8 @@
     S.freq = 0; S.cents = 0; S.shown = 0; S.pending = 0; S.match = null; S.matchShown = -1;
     setRanges();
     buildUI();
-    paintStrings();
-    setHint('已切换到「' + PRESETS[key].label + '」：' +
-            PRESETS[key].strings.map((s) => s[0]).join(' '));
+    setHint('已切换到「' + INSTRUMENTS[S.inst].presets[key].label + '」：' +
+            INSTRUMENTS[S.inst].presets[key].strings.map((s) => s[0]).join(' '));
     render();
   }
 
@@ -678,7 +747,7 @@
     S.freq = 0; S.cents = 0; S.shown = 0; S.pending = 0; S.match = null; S.matchShown = -1;
     el.auto.setAttribute('aria-pressed', 'false');
     paintStrings();
-    setHint('已锁定 ' + STRING_NO[i] + ' 弦 ' + PRESETS[S.preset].strings[i][0] +
+    setHint('已锁定 ' + curInst().tags[i] + ' ' + curStrings()[i][0] +
             '，可点「参考音」听标准音高。');
     render();
   }
@@ -716,7 +785,7 @@
       el.mic.textContent = '停止调音';
       el.mic.classList.add('on');
       setStatus('采集中', 'live');
-      setHint('拨动琴弦，等指针稳定：居中变绿即为准音（偏左偏低、偏右偏高）。');
+      setHint(playingHint() + '，等指针稳定：居中变绿即为准音（偏左偏低、偏右偏高）。');
       startLoop();
     } catch (e) {
       const name = e && e.name;
@@ -742,7 +811,7 @@
   el.ref.addEventListener('click', () => {
     const i = (!S.auto && S.index != null) ? S.index : S.match;
     if (i == null) { setHint('先点一根琴弦，或在拾音中拨一下弦，再播放参考音。'); return; }
-    const s = PRESETS[S.preset].strings[i];
+    const s = curStrings()[i];
     playTone(s[1]);
     setHint('正在播放参考音 ' + s[0] + '（' + s[1].toFixed(1) + ' Hz），跟着听音校准。');
   });
@@ -763,8 +832,6 @@
   /* ---------- 启动 ---------- */
   setRanges();
   buildUI();
-  paintPresets();
-  paintStrings();
   render();
 
   if (location.protocol === 'file:') {

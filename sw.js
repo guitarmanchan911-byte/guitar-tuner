@@ -1,7 +1,7 @@
-/* 吉他调音器 Service Worker —— 基础离线缓存
+/* 吉他二胡调音器 Service Worker —— 基础离线缓存
  * 改完 index.html / manifest.json 后，把 VERSION 加一，用户下次联网打开即会用到新版。
  */
-const VERSION = 'v1';
+const VERSION = 'v3';
 const CACHE = 'guitar-tuner-' + VERSION;
 const ASSETS = ['./', './index.html', './manifest.json'];
 

@@ -1,7 +1,7 @@
 {
-  "name": "吉他调音器 · Guitar Tuner",
-  "short_name": "吉他调音",
-  "description": "手机端吉他调音器：麦克风拾音、指针表盘、参考音播放，内置标准调弦 / 降半音 / DADGAD，可离线使用。",
+  "name": "吉他二胡调音器",
+  "short_name": "吉他二胡调音",
+  "description": "吉他二胡调音器：麦克风拾音、指针表盘、参考音播放。吉他内置标准调弦 / 降半音 / DADGAD，二胡内弦 D4、外弦 A4，可离线使用。",
   "lang": "zh-CN",
   "id": "./",
   "start_url": "./index.html",
