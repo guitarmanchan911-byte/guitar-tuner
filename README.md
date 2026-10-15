@@ -1,5 +1,3 @@
-# guitar-tuner
-Guitar Tuner PWA吉他调音器
 # Hi there 👋
 I'm a Frontend Developer & Open Source Contributor.
 
